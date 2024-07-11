@@ -2,63 +2,72 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Board;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class BoardController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    use AuthorizesRequests;
+
     public function index()
     {
-        //
+        $boards = Board::where('user_id', auth()->id())->get();
+        return view('Board.index', compact('boards'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function show(Board $board)
+    {
+        $this->authorize('view', $board);
+        return view('Board.show', compact('board'));
+    }
+
     public function create()
     {
-        //
+        return view('Board.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        Board::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'user_id' => auth()->id(),
+        ]);
+
+        return redirect()->route('boards.index')->with('success', 'Board created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit(Board $board)
     {
-        //
+        $this->authorize('update', $board);
+        return view('Board.edit', compact('board'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, Board $board)
     {
-        //
+        $this->authorize('update', $board);
+
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        $board->update($request->only(['title', 'description']));
+
+        return redirect()->route('boards.index')->with('success', 'Board updated successfully.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy(Board $board)
     {
-        //
-    }
+        $this->authorize('delete', $board);
+        $board->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()->route('boards.index')->with('success', 'Board deleted successfully.');
     }
 }

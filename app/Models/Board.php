@@ -18,7 +18,7 @@ class Board extends Model
 
     public function lists()
     {
-        return $this->hasMany(BoardList::class);
+        return $this->hasMany(Lists::class);
     }
 
 }
