@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .bg-custom-green {
+        background-color: rgba(42, 73, 42, 1);
+    }
+
+    .hover\\:bg-custom-green-hover:hover {
+        background-color: rgba(42, 73, 42, 0.8);
+    }
+
+    .hover\\:bg-custom-green-light:hover {
+        background-color: rgba(42, 73, 42, 0.6);
+    }
+
+    .shadow-custom {
+        box-shadow: 0 4px 6px -1px rgba(255, 255, 255, 0.5), 0 2px 4px -1px rgba(255, 255, 255, 0.5);
+    }
+}
