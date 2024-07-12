@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
-            {{ __('Your Boards') }}
+            {{ __('Stephane-Trello') }}
         </h2>
     </x-slot>
 
@@ -9,8 +9,8 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-2xl sm:rounded-lg p-8">
                 <div class="mb-6 text-center">
-                    <a href="{{ route('boards.create') }}" class="inline-block bg-custom-green hover:bg-custom-green-hover text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105">
-                        Créer un tableau
+                    <a href="{{ route('boards.create') }}" class="inline-block bg-custom-green hover:bg-custom-green-light text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105">
+                        Create New Board
                     </a>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -29,7 +29,7 @@
                             <form action="{{ route('boards.destroy', $board) }}" method="POST" class="mt-4">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="inline-block bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-custom">
+                                <button type="submit" class="inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-custom">
                                     Delete Board
                                 </button>
                             </form>
