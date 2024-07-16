@@ -3,23 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Board;
+use App\Models\Lists;
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class BoardController extends Controller
 {
-    use AuthorizesRequests;
-
     public function index()
     {
         $boards = Board::where('user_id', auth()->id())->get();
         return view('Board.index', compact('boards'));
     }
 
-    public function show(Board $board)
+    public function show($id)
     {
-        $this->authorize('view', $board);
-        return view('Board.show', compact('board'));
+        $board = Board::findOrFail($id);
+        $boardlists = Lists::where('board_id', $board->id)->get();
+
+        return view('Board.show', compact('board', 'boardlists'));
     }
 
     public function create()
@@ -34,40 +34,37 @@ class BoardController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        Board::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'user_id' => auth()->id(),
-        ]);
+        $board = new Board;
+        $board->title = $request->title;
+        $board->description = $request->description;
+        $board->user_id = auth()->id(); // Assurez-vous que vous avez une colonne user_id dans votre table boards
+        $board->save();
 
-        return redirect()->route('boards.index')->with('success', 'Board created successfully.');
+        return redirect()->route('boards.index');
     }
 
     public function edit(Board $board)
     {
-        $this->authorize('update', $board);
         return view('Board.edit', compact('board'));
     }
 
     public function update(Request $request, Board $board)
     {
-        $this->authorize('update', $board);
-
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
         ]);
 
-        $board->update($request->only(['title', 'description']));
+        $board->title = $request->title;
+        $board->description = $request->description;
+        $board->save();
 
-        return redirect()->route('boards.index')->with('success', 'Board updated successfully.');
+        return redirect()->route('boards.show', $board);
     }
 
     public function destroy(Board $board)
     {
-        $this->authorize('delete', $board);
         $board->delete();
-
-        return redirect()->route('boards.index')->with('success', 'Board deleted successfully.');
+        return redirect()->route('boards.index');
     }
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BoardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ListController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -18,12 +19,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('boards', BoardController::class);
+
+    // Routes for lists
+    Route::post('/boards/{board}/lists', [ListController::class, 'store'])->name('lists.store');
+    Route::patch('/lists/{list}', [ListController::class, 'update'])->name('lists.update');
+    Route::delete('/lists/{list}', [ListController::class, 'destroy'])->name('lists.destroy');
+    Route::post('/lists/reorder', [ListController::class, 'reorder'])->name('lists.reorder');
 });
 
- 
-Route::get('/boards', [BoardController::class, 'index'])->name('boards.index');
-
 require __DIR__.'/auth.php';
-
-
-

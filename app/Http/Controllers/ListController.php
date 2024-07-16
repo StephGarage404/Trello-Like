@@ -1,64 +1,60 @@
 <?php
-
 namespace App\Http\Controllers;
 
+use App\Models\Board;
+use App\Models\Lists;
 use Illuminate\Http\Request;
 
 class ListController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function store(Request $request, Board $board)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+        ]);
+
+        $list = new Lists;
+        
+        $list->title = $request->title;
+        $list->board_id = $board->id;
+     
+        $list->save();
+
+        return redirect()->route('boards.show', $board);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function update(Request $request, Lists $list)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+        ]);
+
+        $list->title = $request->title;
+        $list->save();
+
+        return redirect()->route('boards.show', $list->board);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function destroy(Lists $list)
     {
-        //
+        $board = $list->board;
+        $list->delete();
+
+        return redirect()->route('boards.show', $board);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function reorder(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'order' => 'required|array',
+        ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+        foreach ($request->order as $index => $listId) {
+            $list = Lists::find($listId);
+            $list->order = $index;
+            $list->save();
+        }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return response()->json(['status' => 'success']);
     }
 }

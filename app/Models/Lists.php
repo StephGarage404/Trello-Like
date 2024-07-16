@@ -9,10 +9,15 @@ class Lists extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'board_id'];
+    protected $fillable = ['title', 'board_id'];
 
     public function board()
     {
         return $this->belongsTo(Board::class);
+    }
+
+    public function cards()
+    {
+        return $this->hasMany(Card::class);
     }
 }

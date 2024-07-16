@@ -16,7 +16,7 @@ class Board extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function lists()
+    public function list()
     {
         return $this->hasMany(Lists::class);
     }
