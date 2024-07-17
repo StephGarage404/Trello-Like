@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Board;
@@ -7,6 +8,11 @@ use Illuminate\Http\Request;
 
 class ListController extends Controller
 {
+    public function create(Board $board)
+    {
+        return view('lists.create', compact('board'));
+    }
+
     public function store(Request $request, Board $board)
     {
         $request->validate([
@@ -14,10 +20,8 @@ class ListController extends Controller
         ]);
 
         $list = new Lists;
-        
         $list->title = $request->title;
         $list->board_id = $board->id;
-     
         $list->save();
 
         return redirect()->route('boards.show', $board);

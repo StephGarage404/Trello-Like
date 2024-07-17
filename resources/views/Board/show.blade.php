@@ -13,29 +13,32 @@
                 <a href="{{ route('boards.index') }}" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105">
                     Retour aux tableaux
                 </a>
+                <a href="{{ route('lists.create', $board) }}" class="inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 ml-4">
+                    Créer une nouvelle liste
+                </a>
             </div>
 
             <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            @foreach ($boardlists as $boardlist)
-                            <li class="max-w-sm p-6 bg-white border border-gray-300 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl">
-                                <a class="text-blue-500">
-                                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-rose">{{ $boardlist->title }}</h5>
-                                </a>
-                                <p class="mt-2 text-gray-600">{{ $boardlist->board_id }}</p>
-                                <div class="mt-4 flex space-x-4">
-                                    <a class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-peche rounded-md shadow-md hover:bg-peche-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-peche">
-                                        Edit
-                                    </a>
-                                    <form action="" method="POST" class="inline-block">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-red-500 rounded-md shadow-md hover:bg-rose-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose">
-                                            Delete
-                                        </button>
-                                    </form>
-                                </div>
-                            </li>
-                        @endforeach
+                @foreach ($boardlists as $boardlist)
+                    <li class="max-w-sm p-6 bg-white border border-gray-300 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl">
+                        <a class="text-blue-500">
+                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-rose">{{ $boardlist->title }}</h5>
+                        </a>
+                        <p class="mt-2 text-gray-600">{{ $boardlist->board_id }}</p>
+                        <div class="mt-4 flex space-x-4">
+                            <a class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-peche rounded-md shadow-md hover:bg-peche-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-peche">
+                                Edit
+                            </a>
+                            <form action="" method="POST" class="inline-block">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-red-500 rounded-md shadow-md hover:bg-rose-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose">
+                                    Delete
+                                </button>
+                            </form>
+                        </div>
+                    </li>
+                @endforeach
             </div>
 
             <div class="mt-12 text-center">
@@ -46,3 +49,4 @@
         </div>
     </div>
 </x-app-layout>
+

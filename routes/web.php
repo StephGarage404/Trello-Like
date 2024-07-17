@@ -1,5 +1,4 @@
 <?php
-
 use App\Http\Controllers\BoardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ListController;
@@ -21,6 +20,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('boards', BoardController::class);
 
     // Routes for lists
+    Route::get('/boards/{board}/lists/create', [ListController::class, 'create'])->name('lists.create');
     Route::post('/boards/{board}/lists', [ListController::class, 'store'])->name('lists.store');
     Route::patch('/lists/{list}', [ListController::class, 'update'])->name('lists.update');
     Route::delete('/lists/{list}', [ListController::class, 'destroy'])->name('lists.destroy');
