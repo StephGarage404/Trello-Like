@@ -19,12 +19,17 @@ class ListController extends Controller
             'title' => 'required|string|max:255',
         ]);
 
-        $list = new Lists;
+        $list = new Lists; 
         $list->title = $request->title;
         $list->board_id = $board->id;
         $list->save();
 
         return redirect()->route('boards.show', $board);
+    }
+
+    public function edit(Lists $list)
+    {
+        return view('lists.edit', compact('list'));
     }
 
     public function update(Request $request, Lists $list)
@@ -36,13 +41,12 @@ class ListController extends Controller
         $list->title = $request->title;
         $list->save();
 
-        return redirect()->route('boards.show', $list->board);
+        return redirect()->route('boards.show', $list->board_id); 
     }
 
     public function destroy(Lists $list)
     {
-        $board = $list->board;
-        
+        $board = $list->board_id;
 
         $list->delete();
 
