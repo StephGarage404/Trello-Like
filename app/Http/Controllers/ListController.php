@@ -42,6 +42,8 @@ class ListController extends Controller
     public function destroy(Lists $list)
     {
         $board = $list->board;
+        
+
         $list->delete();
 
         return redirect()->route('boards.show', $board);

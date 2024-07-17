@@ -21,6 +21,9 @@ Route::middleware('auth')->group(function () {
 
     // Routes for lists
     Route::get('/boards/{board}/lists/create', [ListController::class, 'create'])->name('lists.create');
+
+    Route::get('/lists/{list}/edit', [ListController::class, 'edit'])->name('lists.edit');
+
     Route::post('/boards/{board}/lists', [ListController::class, 'store'])->name('lists.store');
     Route::patch('/lists/{list}', [ListController::class, 'update'])->name('lists.update');
     Route::delete('/lists/{list}', [ListController::class, 'destroy'])->name('lists.destroy');
