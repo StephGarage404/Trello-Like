@@ -5,44 +5,48 @@
         </h2>
     </x-slot>
 
-    <div class="py-12 bg-gradient-to-r from-blue-50 to-yellow-50 min-h-screen">
+    <div class="py-12 bg-gradient-to-r from-green-400 to-yellow-500 min-h-screen">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-custom-image overflow-hidden shadow-2xl sm:rounded-lg p-8 shadow-custom">
-                <h1 class="text-4xl font-bold mb-6 text-blue-800">{{ $board->title }}</h1>
-                <p class="text-gray-700 mb-8">{{ $board->description }}</p>
-                <a href="{{ route('boards.index') }}" class="inline-block bg-custom-black hover:bg-custom-black-hover text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105">
-                    Retour aux tableaux
-                </a>
-                <a href="{{ route('lists.create', $board) }}" class="inline-block bg-custom-green hover:bg-custom-green-hover text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 ml-4">
-                    Créer une nouvelle liste
-                </a>
-            </div>
+            <div class="bg-custom-image bg-cover bg-center overflow-hidden shadow-2xl sm:rounded-lg p-8 shadow-custom">
+                <h1 class="text-4xl font-bold mb-6 text-white">{{ $board->title }}</h1>
+                <p class="text-gray-100 mb-8">{{ $board->description }}</p>
+                <div class="flex justify-between items-center mb-6">
+                    <a href="{{ route('boards.index') }}" class="inline-block bg-green-800 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105">
+                        Retour aux tableaux
+                    </a>
+                    <a href="{{ route('lists.create', $board) }}" class="inline-block bg-yellow-500 hover:bg-yellow-400 text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 ml-4">
+                        Créer une nouvelle liste
+                    </a>
+                </div>
 
-            <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                @foreach ($boardlists as $boardlist)
-                    <li class="max-w-sm p-6 bg-white border border-gray-300 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl">
-                        <a class="text-blue-500">
-                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-rose">{{ $boardlist->title }}</h5>
-                        </a>
-                        <p class="mt-2 text-gray-600">{{ $boardlist->board_id }}</p>
-                        <div class="mt-4 flex space-x-4">
-                            <a href="{{ route('lists.edit', $boardlist) }}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-custom-green hover:bg-custom-green-hover rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-green">
-                                Edit
-                            </a>
-                            <form action="{{ route('lists.destroy', $boardlist) }}" method="POST" class="inline-block">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-red-500 rounded-md shadow-md hover:bg-rose-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose">
-                                    Delete
-                                </button>
-                            </form>
+                <!-- Display Lists Here -->
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    @foreach ($boardlists as $boardlist)
+                        <div class="bg-white border border-gray-300 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl">
+                            <div class="p-6 bg-red-600"> <!-- Added bg-red-600 class for red background -->
+                                <h5 class="text-xl font-semibold text-white mb-2">{{ $boardlist->title }}</h5>
+                                <p class="text-gray-200">{{ $boardlist->board_id }}</p>
+                            </div>
+                            <div class="flex justify-between items-center px-6 py-4 bg-green-500 hover:bg-green-400 rounded-b-lg">
+                                <a href="{{ route('lists.edit', $boardlist) }}" class="text-sm font-medium text-white hover:text-gray-200 transition duration-300 ease-in-out">
+                                    Edit
+                                </a>
+                                <form action="{{ route('lists.destroy', $boardlist) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-sm font-medium text-white bg-red-500 rounded-md px-4 py-2 hover:bg-red-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-300 ease-in-out">
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
                         </div>
-                    </li>
-                @endforeach
+                    @endforeach
+                </div>
             </div>
 
-            <div class="mt-12 text-center">
-                <a href="{{ route('boards.edit', $board) }}" class="inline-block bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105">
+            <div class="mt-8 text-center">
+                <a href="{{ route('boards.edit', $board) }}" class="inline-block bg-green-800 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 relative overflow-hidden">
+                    <span class="bg-gradient-to-r from-white via-white to-transparent absolute top-0 left-0 w-full h-full opacity-0 transition-opacity duration-300 ease-in-out"></span>
                     Modifier le tableau
                 </a>
             </div>
